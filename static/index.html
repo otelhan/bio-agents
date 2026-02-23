@@ -10,10 +10,13 @@
   <div class="app">
     <header class="header">
       <div class="header-title">bio-agents</div>
-      <div class="agent-badges">
-        <span class="badge badge--designer">@designer</span>
-        <span class="badge badge--farmer">@farmer</span>
-        <span class="badge badge--cfo">@cfo</span>
+      <div class="header-right">
+        <div class="agent-badges">
+          <span class="badge badge--designer" data-agent="designer" title="@designer">@designer</span>
+          <span class="badge badge--farmer" data-agent="farmer" title="@farmer">@farmer</span>
+          <span class="badge badge--cfo" data-agent="cfo" title="@cfo">@cfo</span>
+        </div>
+        <button class="clear-btn" id="clear-btn" title="Clear conversation">↺</button>
       </div>
     </header>
 
@@ -21,10 +24,26 @@
       <div class="suggested" id="suggested"></div>
     </div>
 
+    <!-- @mention autocomplete -->
+    <div class="mention-menu" id="mention-menu" hidden>
+      <div class="mention-item" data-mention="@designer">
+        <span class="mention-name">@designer</span>
+        <span class="mention-desc">Material design &amp; image analysis</span>
+      </div>
+      <div class="mention-item" data-mention="@farmer">
+        <span class="mention-name">@farmer</span>
+        <span class="mention-desc">Production data &amp; yield analysis</span>
+      </div>
+      <div class="mention-item" data-mention="@cfo">
+        <span class="mention-name">@cfo</span>
+        <span class="mention-desc">Financial &amp; techno-economic model</span>
+      </div>
+    </div>
+
     <form class="input-bar" id="form" autocomplete="off">
       <textarea
         id="input"
-        placeholder="Type @cfo, @designer, or @farmer to talk to an agent…"
+        placeholder="Message bio-agents… (type @ to mention an agent)"
         rows="1"
       ></textarea>
       <button type="submit" id="send-btn">Send</button>
