@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bio-agents</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-title">bio-agents</div>
+      <div class="agent-badges">
+        <span class="badge badge--designer">@designer</span>
+        <span class="badge badge--farmer">@farmer</span>
+        <span class="badge badge--cfo">@cfo</span>
+      </div>
+    </header>
+
+    <div class="chat" id="chat">
+      <div class="suggested" id="suggested"></div>
+    </div>
+
+    <form class="input-bar" id="form" autocomplete="off">
+      <textarea
+        id="input"
+        placeholder="Type @cfo, @designer, or @farmer to talk to an agent…"
+        rows="1"
+      ></textarea>
+      <button type="submit" id="send-btn">Send</button>
+    </form>
+  </div>
+
+  <script src="/chat.js"></script>
+</body>
+</html>
