@@ -8,14 +8,22 @@ let sessionId = getCookie("bio_session") || null;
 let isStreaming = false;
 let activeAgent = null;
 
+// ─── Pending image state ───────────────────────────────────
+let pendingImageId  = null;
+let pendingImageUrl = null;
+
 // ─── DOM refs ─────────────────────────────────────────────
-const chat       = document.getElementById("chat");
-const form       = document.getElementById("form");
-const input      = document.getElementById("input");
-const sendBtn    = document.getElementById("send-btn");
-const suggestedEl = document.getElementById("suggested");
-const mentionMenu = document.getElementById("mention-menu");
-const clearBtn   = document.getElementById("clear-btn");
+const chat           = document.getElementById("chat");
+const form           = document.getElementById("form");
+const input          = document.getElementById("input");
+const sendBtn        = document.getElementById("send-btn");
+const suggestedEl    = document.getElementById("suggested");
+const mentionMenu    = document.getElementById("mention-menu");
+const clearBtn       = document.getElementById("clear-btn");
+const imageInput     = document.getElementById("image-input");
+const imagePreviewBar = document.getElementById("image-preview-bar");
+const previewThumb   = document.getElementById("preview-thumb");
+const previewRemove  = document.getElementById("preview-remove");
 
 // ─── Agent badge activation ───────────────────────────────
 function setActiveAgent(agentKey) {
@@ -72,10 +80,20 @@ function renderMarkdown(text) {
 }
 
 // ─── Message helpers ──────────────────────────────────────
-function addUserMessage(text) {
+function addUserMessage(text, imageUrl) {
   const el = document.createElement("div");
   el.className = "message message--user";
-  el.textContent = text;
+  if (imageUrl) {
+    const img = document.createElement("img");
+    img.className = "msg-image";
+    img.src = imageUrl;
+    el.appendChild(img);
+  }
+  if (text) {
+    const span = document.createElement("span");
+    span.textContent = text;
+    el.appendChild(span);
+  }
   chat.appendChild(el);
   scrollToBottom();
 }
@@ -112,22 +130,76 @@ function scrollToBottom() {
   chat.scrollTop = chat.scrollHeight;
 }
 
+// ─── Image upload ─────────────────────────────────────────
+async function handleImageFile(file) {
+  if (!file || !file.type.startsWith("image/")) return;
+
+  // Show local preview immediately
+  if (pendingImageUrl) URL.revokeObjectURL(pendingImageUrl);
+  pendingImageUrl = URL.createObjectURL(file);
+  previewThumb.src = pendingImageUrl;
+  imagePreviewBar.hidden = false;
+  pendingImageId = null; // will be set after upload
+
+  // Upload to server
+  const fd = new FormData();
+  fd.append("file", file);
+  try {
+    const res = await fetch("/api/upload/image", { method: "POST", body: fd });
+    if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
+    const data = await res.json();
+    pendingImageId = data.image_id;
+  } catch (err) {
+    console.error("Image upload failed:", err);
+    clearImagePreview();
+  }
+}
+
+function clearImagePreview() {
+  pendingImageId = null;
+  if (pendingImageUrl) URL.revokeObjectURL(pendingImageUrl);
+  pendingImageUrl = null;
+  previewThumb.src = "";
+  imagePreviewBar.hidden = true;
+}
+
+imageInput.addEventListener("change", async (e) => {
+  await handleImageFile(e.target.files[0]);
+  imageInput.value = ""; // allow re-selecting same file
+});
+
+previewRemove.addEventListener("click", clearImagePreview);
+
+// ─── Drag-and-drop ────────────────────────────────────────
+document.body.addEventListener("dragover", (e) => e.preventDefault());
+document.body.addEventListener("drop", async (e) => {
+  e.preventDefault();
+  const file = Array.from(e.dataTransfer.files).find(f => f.type.startsWith("image/"));
+  if (file) await handleImageFile(file);
+});
+
 // ─── Send message ─────────────────────────────────────────
 async function sendMessage(text) {
-  if (!text.trim() || isStreaming) return;
+  if (!text.trim() && !pendingImageId) return;
+  if (isStreaming) return;
 
   isStreaming = true;
   sendBtn.disabled = true;
   suggestedEl.style.display = "none";
 
-  addUserMessage(text);
+  // Capture and clear pending image before async work
+  const imageUrl = pendingImageUrl;
+  const imageId  = pendingImageId;
+  clearImagePreview();
+
+  addUserMessage(text, imageUrl);
   const typing = addTypingIndicator();
 
   try {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, session_id: sessionId }),
+      body: JSON.stringify({ message: text, session_id: sessionId, image_id: imageId }),
     });
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -210,7 +282,7 @@ function selectMention(mention) {
   input.focus();
 }
 
-mentionItems.forEach((item, i) => {
+mentionItems.forEach((item) => {
   item.addEventListener("mousedown", (e) => {
     e.preventDefault();
     selectMention(item.dataset.mention);
@@ -285,7 +357,7 @@ document.addEventListener("click", (e) => {
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const text = input.value.trim();
-  if (!text) return;
+  if (!text && !pendingImageId) return;
   input.value = "";
   input.style.height = "auto";
   hideMentionMenu();

@@ -310,3 +310,80 @@ body {
 
 #send-btn:hover { opacity: 0.85; }
 #send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ─── Attach button ─────────────────────────────────────── */
+.attach-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.attach-btn:hover { color: var(--text); border-color: var(--text-muted); }
+.attach-btn input[type="file"] { display: none; }
+
+/* ─── Image preview bar ─────────────────────────────────── */
+.image-preview-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.preview-thumb {
+  height: 48px;
+  width: auto;
+  max-width: 80px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+}
+
+.preview-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.preview-remove {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.preview-remove:hover { color: var(--text); border-color: var(--text-muted); }
+
+/* ─── Image in user message bubble ─────────────────────── */
+.message--user img.msg-image {
+  display: block;
+  max-width: 220px;
+  max-height: 160px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}

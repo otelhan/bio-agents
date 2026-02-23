@@ -25,6 +25,13 @@
       <div class="suggested" id="suggested"></div>
     </div>
 
+    <!-- Image preview strip (shown when image is attached) -->
+    <div class="image-preview-bar" id="image-preview-bar" hidden>
+      <img id="preview-thumb" class="preview-thumb" alt="attached image" />
+      <span class="preview-label">Image attached — send to @designer</span>
+      <button class="preview-remove" id="preview-remove" title="Remove image">×</button>
+    </div>
+
     <!-- @mention autocomplete -->
     <div class="mention-menu" id="mention-menu" hidden>
       <div class="mention-item" data-mention="@designer">
@@ -42,6 +49,10 @@
     </div>
 
     <form class="input-bar" id="form" autocomplete="off">
+      <label class="attach-btn" id="attach-label" title="Attach image for @designer">
+        📎
+        <input type="file" id="image-input" accept="image/*" />
+      </label>
       <textarea
         id="input"
         placeholder="Message bio-agents… (type @ to mention an agent)"

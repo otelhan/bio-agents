@@ -5,6 +5,7 @@ from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel
 
 from agents.cfo import cfo_agent
+from agents.designer import designer_agent
 from agents.farmer import farmer_agent
 from router.mention_router import parse_message
 from router.orchestrator import classify_agent
@@ -15,7 +16,7 @@ router = APIRouter()
 AGENT_REGISTRY = {
     "cfo": cfo_agent,
     "farmer": farmer_agent,
-    # "designer": designer_agent,  # Phase 4
+    "designer": designer_agent,
 }
 
 SUGGESTED_QUESTIONS = {
@@ -52,20 +53,11 @@ async def chat(request: ChatRequest):
     parsed = parse_message(request.message, request.image_id)
     user_content = parsed.clean_text or request.message
 
+    # Inject image_id into message so Claude can pass it to analyze_bc_image
+    if request.image_id:
+        user_content = f"[image_id: {request.image_id}]\n{user_content}"
+
     history = context_store.get_claude_messages(session_id)
-
-    NOT_YET = {"designer": "AI Designer", "farmer": "AI Farmer"}
-
-    # If user explicitly mentioned an agent not yet implemented, say so
-    if parsed.target_agent in NOT_YET and parsed.target_agent not in AGENT_REGISTRY:
-        agent_label = NOT_YET[parsed.target_agent]
-        async def not_implemented():
-            msg = f"{agent_label} is coming soon! For now, only @cfo is available."
-            yield f"data: {json.dumps({'type': 'session_id', 'session_id': session_id})}\n\n"
-            yield f"data: {json.dumps({'type': 'agent', 'agent': agent_label, 'agent_key': parsed.target_agent})}\n\n"
-            yield f"data: {json.dumps({'type': 'text', 'content': msg})}\n\n"
-            yield f"data: {json.dumps({'type': 'done'})}\n\n"
-        return StreamingResponse(not_implemented(), media_type="text/event-stream")
 
     # Determine target agent — use orchestrator if no @mention
     if parsed.target_agent and parsed.target_agent in AGENT_REGISTRY:
@@ -100,13 +92,12 @@ async def chat(request: ChatRequest):
         yield f"data: {json.dumps({'type': 'done'})}\n\n"
 
     response = StreamingResponse(event_stream(), media_type="text/event-stream")
-    # Set session cookie so the browser persists the session across page refreshes
     response.set_cookie(
         key="bio_session",
         value=session_id,
-        max_age=60 * 60 * 24,  # 24 hours
+        max_age=60 * 60 * 24,
         samesite="lax",
-        httponly=False,  # JS needs to read it for the initial page load
+        httponly=False,
     )
     return response
 
