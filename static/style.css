@@ -44,11 +44,13 @@ body {
   flex-direction: column;
   width: 100%;
   max-width: var(--panel-width);
-  height: 100dvh;
+  height: calc(100dvh - 40px);
+  margin-top: 40px;
   background: var(--bg);
   position: relative;
-  /* Subtle shadow to lift panel off background */
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.25), 0 0 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
 /* ─── Header ────────────────────────────────────────────── */
@@ -62,17 +64,19 @@ body {
   flex-shrink: 0;
 }
 
-.header-title {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--text);
-}
-
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+}
+
+.header-brand {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding-left: 4px;
 }
 
 .agent-badges {
@@ -85,8 +89,8 @@ body {
   font-weight: 600;
   padding: 3px 9px;
   border-radius: 20px;
-  border: 1px solid currentColor;
-  opacity: 0.35;
+  border: 1.5px solid currentColor;
+  opacity: 0.75;
   cursor: default;
   transition: opacity 0.2s, box-shadow 0.2s;
   letter-spacing: 0.02em;
@@ -421,6 +425,9 @@ body {
 @media (max-width: 640px) {
   .app {
     max-width: 100%;
+    margin-top: 0;
+    height: 100dvh;
+    border-radius: 0;
     box-shadow: none;
   }
 
