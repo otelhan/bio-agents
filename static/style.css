@@ -13,7 +13,7 @@
   /* ── Agent accents ── */
   --accent-designer: #3383bc;
   --accent-farmer:   #537d00;
-  --accent-cfo:      #a82924;
+  --accent-cfo:      #cb3c33;
   --accent-user:     #6b3fa0;
 
   /* ── UI action colour (send button, focus ring) ── */
@@ -132,8 +132,8 @@ body {
   border: 1px solid var(--border);
   color: var(--text-muted);
   border-radius: 6px;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
   font-size: 17px;
   display: flex;

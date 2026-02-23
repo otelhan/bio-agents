@@ -376,8 +376,8 @@ form.addEventListener("submit", (e) => {
 clearBtn.addEventListener("click", async () => {
   await fetch("/api/session", { method: "DELETE" });
   sessionId = null;
-  chat.innerHTML = '<div class="suggested" id="suggested"></div>';
-  suggestedEl = document.getElementById("suggested");
+  // Remove only messages and typing indicators — leave #suggested in place
+  chat.querySelectorAll(".message, .typing").forEach(el => el.remove());
   loadSuggested();
   setActiveAgent(null);
 });
