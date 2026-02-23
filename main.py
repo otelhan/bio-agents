@@ -3,6 +3,7 @@ from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from api.chat import router as chat_router
+from api.settings import router as settings_router
 
 app = FastAPI(title="bio-agents")
 
@@ -23,4 +24,5 @@ async def iframe_headers(request: Request, call_next):
 
 
 app.include_router(chat_router, prefix="/api")
+app.include_router(settings_router, prefix="/api")
 app.mount("/", StaticFiles(directory="static", html=True), name="static")

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bio-agents — Settings</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --text-muted: #888;
+      --accent-designer: #a8d8b0;
+      --accent-farmer: #d8c8a0;
+      --accent-cfo: #a8c0d8;
+      --radius: 12px;
+      --font: 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      min-height: 100dvh;
+    }
+
+    /* ─── Header ─── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color 0.15s;
+    }
+
+    .header a:hover { color: var(--text); }
+
+    .header-title { font-size: 15px; font-weight: 600; letter-spacing: 0.03em; }
+
+    /* ─── Login overlay ─── */
+    #login-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100dvh - 53px);
+    }
+
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 40px;
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .login-box h2 { font-size: 16px; font-weight: 600; }
+    .login-box p { color: var(--text-muted); font-size: 12px; }
+
+    .login-error {
+      color: #e8a0a0;
+      font-size: 12px;
+      display: none;
+    }
+
+    /* ─── Settings content ─── */
+    #settings-content {
+      display: none;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid currentColor;
+      letter-spacing: 0.05em;
+    }
+
+    .section-badge--designer { color: var(--accent-designer); }
+    .section-badge--farmer   { color: var(--accent-farmer); }
+    .section-badge--cfo      { color: var(--accent-cfo); }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* ─── Form elements ─── */
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="url"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus { border-color: var(--accent-cfo); }
+
+    .btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .btn:hover { border-color: var(--text-muted); }
+
+    .btn-primary {
+      background: var(--accent-cfo);
+      border-color: var(--accent-cfo);
+      color: #000;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-danger {
+      color: #e8a0a0;
+      border-color: transparent;
+      background: none;
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+
+    .btn-danger:hover { border-color: #e8a0a0; }
+
+    /* ─── File list ─── */
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+
+    .file-item-name {
+      font-size: 13px;
+      font-family: monospace;
+    }
+
+    .file-check {
+      color: var(--accent-designer);
+      margin-right: 8px;
+      font-size: 12px;
+    }
+
+    /* ─── Upload button ─── */
+    .upload-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text-muted);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .upload-label:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+
+    input[type="file"] { display: none; }
+
+    /* ─── Status message ─── */
+    .status {
+      font-size: 11px;
+      height: 16px;
+      transition: opacity 0.3s;
+    }
+
+    .status--ok  { color: var(--accent-designer); }
+    .status--err { color: #e8a0a0; }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">bio-agents — Settings</div>
+  <div style="display:flex;gap:16px;align-items:center">
+    <a href="/" id="back-link">← Back to chat</a>
+    <a href="#" id="logout-btn" style="display:none">Logout</a>
+  </div>
+</div>
+
+<!-- ─── Login ─── -->
+<div id="login-overlay">
+  <div class="login-box">
+    <h2>Settings</h2>
+    <p>Enter the admin password to configure data sources.</p>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="pw-input" placeholder="admin password" autocomplete="current-password" />
+    </div>
+    <div class="login-error" id="login-error">Incorrect password.</div>
+    <button class="btn btn-primary" id="login-btn">Unlock</button>
+  </div>
+</div>
+
+<!-- ─── Settings panel ─── -->
+<div id="settings-content">
+
+  <!-- AI DESIGNER -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge section-badge--designer">@designer</span>
+      <span class="section-title">AI Designer</span>
+    </div>
+
+    <div class="field">
+      <label>Knowledge Base Files</label>
+      <div class="file-list" id="kb-file-list">
+        <div style="color:var(--text-muted);font-size:12px">No files uploaded yet.</div>
+      </div>
+      <label class="upload-label">
+        <span>+ Upload .md file</span>
+        <input type="file" id="kb-upload" accept=".md" />
+      </label>
+      <div class="status" id="kb-status"></div>
+    </div>
+
+    <div class="field">
+      <label>Replicate Model Version</label>
+      <div class="field-row">
+        <input type="text" id="replicate-version" placeholder="e.g. f7885cde3a…" />
+        <button class="btn" id="save-designer-btn">Save</button>
+      </div>
+      <div class="status" id="designer-status"></div>
+    </div>
+  </div>
+
+  <!-- AI FARMER -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge section-badge--farmer">@farmer</span>
+      <span class="section-title">AI Farmer</span>
+    </div>
+
+    <div class="field">
+      <label>Runs Spreadsheet URL</label>
+      <input type="url" id="runs-url" placeholder="https://docs.google.com/spreadsheets/d/…" />
+      <p class="hint">Google Sheets URL (edit or share link — the app converts it to CSV).</p>
+    </div>
+
+    <div class="field">
+      <label>Treatments Spreadsheet URL</label>
+      <input type="url" id="treatments-url" placeholder="https://docs.google.com/spreadsheets/d/…" />
+    </div>
+
+    <div class="field-row" style="margin-top:4px">
+      <button class="btn btn-primary" id="save-farmer-btn">Save Farmer Settings</button>
+      <div class="status" id="farmer-status" style="align-self:center;padding-left:8px"></div>
+    </div>
+  </div>
+
+  <!-- AI CFO -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge section-badge--cfo">@cfo</span>
+      <span class="section-title">AI CFO</span>
+    </div>
+
+    <div class="field">
+      <label>TEM Model File</label>
+      <div class="file-list" id="tem-file-list">
+        <div style="color:var(--text-muted);font-size:12px">Using built-in defaults.</div>
+      </div>
+      <label class="upload-label">
+        <span>+ Upload new .md file</span>
+        <input type="file" id="tem-upload" accept=".md" />
+      </label>
+      <p class="hint">Upload a markdown file with YAML frontmatter to override TEM default parameters.</p>
+      <div class="status" id="tem-status"></div>
+    </div>
+  </div>
+
+</div><!-- /settings-content -->
+
+<script>
+  const API = '/api';
+
+  // ─── Helpers ───────────────────────────────────────────────
+  function showStatus(el, msg, ok) {
+    el.textContent = msg;
+    el.className = 'status ' + (ok ? 'status--ok' : 'status--err');
+    setTimeout(() => { el.textContent = ''; el.className = 'status'; }, 3000);
+  }
+
+  async function api(method, path, body) {
+    const opts = { method, credentials: 'include', headers: {} };
+    if (body instanceof FormData) {
+      opts.body = body;
+    } else if (body) {
+      opts.headers['Content-Type'] = 'application/json';
+      opts.body = JSON.stringify(body);
+    }
+    const res = await fetch(API + path, opts);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.detail || res.statusText);
+    return data;
+  }
+
+  // ─── Login ─────────────────────────────────────────────────
+  async function tryLogin(pw) {
+    try {
+      await api('POST', '/settings/auth', { password: pw });
+      showPanel();
+    } catch {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+
+  document.getElementById('login-btn').addEventListener('click', () => {
+    tryLogin(document.getElementById('pw-input').value);
+  });
+
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryLogin(e.target.value);
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', async e => {
+    e.preventDefault();
+    await api('POST', '/settings/logout');
+    location.reload();
+  });
+
+  // ─── Load & render settings ────────────────────────────────
+  async function showPanel() {
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('settings-content').style.display = 'block';
+    document.getElementById('logout-btn').style.display = 'inline';
+
+    let cfg;
+    try {
+      cfg = await api('GET', '/settings');
+    } catch {
+      return;
+    }
+
+    // Designer
+    document.getElementById('replicate-version').value = cfg.designer?.replicate_version || '';
+    renderKbFiles(cfg.designer?.kb_files || []);
+
+    // Farmer
+    document.getElementById('runs-url').value = cfg.farmer?.runs_url || '';
+    document.getElementById('treatments-url').value = cfg.farmer?.treatments_url || '';
+
+    // CFO
+    renderTemFile(cfg.cfo?.tem_model_file || '');
+  }
+
+  // ─── KB files ──────────────────────────────────────────────
+  function renderKbFiles(files) {
+    const list = document.getElementById('kb-file-list');
+    if (!files.length) {
+      list.innerHTML = '<div style="color:var(--text-muted);font-size:12px">No files uploaded yet.</div>';
+      return;
+    }
+    list.innerHTML = files.map(f => `
+      <div class="file-item">
+        <span><span class="file-check">✓</span><span class="file-item-name">${f}</span></span>
+        <button class="btn btn-danger" onclick="deleteKb('${f}')">remove</button>
+      </div>
+    `).join('');
+  }
+
+  async function deleteKb(filename) {
+    try {
+      await api('DELETE', `/settings/kb/${encodeURIComponent(filename)}`);
+      const cfg = await api('GET', '/settings');
+      renderKbFiles(cfg.designer?.kb_files || []);
+      showStatus(document.getElementById('kb-status'), 'Removed ' + filename, true);
+    } catch (e) {
+      showStatus(document.getElementById('kb-status'), e.message, false);
+    }
+  }
+
+  document.getElementById('kb-upload').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+      await api('POST', '/settings/upload/kb', fd);
+      const cfg = await api('GET', '/settings');
+      renderKbFiles(cfg.designer?.kb_files || []);
+      showStatus(document.getElementById('kb-status'), 'Uploaded ' + file.name, true);
+    } catch (err) {
+      showStatus(document.getElementById('kb-status'), err.message, false);
+    }
+    e.target.value = '';
+  });
+
+  // ─── Designer save ─────────────────────────────────────────
+  document.getElementById('save-designer-btn').addEventListener('click', async () => {
+    try {
+      await api('POST', '/settings/designer', {
+        replicate_version: document.getElementById('replicate-version').value,
+      });
+      showStatus(document.getElementById('designer-status'), 'Saved!', true);
+    } catch (e) {
+      showStatus(document.getElementById('designer-status'), e.message, false);
+    }
+  });
+
+  // ─── Farmer save ───────────────────────────────────────────
+  document.getElementById('save-farmer-btn').addEventListener('click', async () => {
+    try {
+      await api('POST', '/settings/farmer', {
+        runs_url: document.getElementById('runs-url').value,
+        treatments_url: document.getElementById('treatments-url').value,
+      });
+      showStatus(document.getElementById('farmer-status'), 'Saved!', true);
+    } catch (e) {
+      showStatus(document.getElementById('farmer-status'), e.message, false);
+    }
+  });
+
+  // ─── TEM file ──────────────────────────────────────────────
+  function renderTemFile(filename) {
+    const list = document.getElementById('tem-file-list');
+    if (!filename) {
+      list.innerHTML = '<div style="color:var(--text-muted);font-size:12px">Using built-in defaults.</div>';
+      return;
+    }
+    list.innerHTML = `
+      <div class="file-item">
+        <span><span class="file-check">✓</span><span class="file-item-name">${filename}</span></span>
+      </div>
+    `;
+  }
+
+  document.getElementById('tem-upload').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+      const res = await api('POST', '/settings/upload/tem', fd);
+      renderTemFile(res.filename);
+      showStatus(document.getElementById('tem-status'), 'Uploaded ' + file.name, true);
+    } catch (err) {
+      showStatus(document.getElementById('tem-status'), err.message, false);
+    }
+    e.target.value = '';
+  });
+
+  // ─── Auto-check if already logged in ───────────────────────
+  (async () => {
+    try {
+      await api('GET', '/settings');
+      showPanel();
+    } catch {
+      // not logged in yet — show login form
+    }
+  })();
+</script>
+</body>
+</html>

@@ -5,6 +5,7 @@ from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel
 
 from agents.cfo import cfo_agent
+from agents.farmer import farmer_agent
 from router.mention_router import parse_message
 from router.orchestrator import classify_agent
 from session.context_store import context_store
@@ -13,8 +14,8 @@ router = APIRouter()
 
 AGENT_REGISTRY = {
     "cfo": cfo_agent,
+    "farmer": farmer_agent,
     # "designer": designer_agent,  # Phase 4
-    # "farmer": farmer_agent,       # Phase 3
 }
 
 SUGGESTED_QUESTIONS = {
