@@ -1,0 +1,24 @@
+# Environment
+.env
+.env.local
+
+# Sensitive config — lives on server only, not in git
+data/settings.json
+data/kb/
+
+# Uploads
+/tmp/uploads/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
