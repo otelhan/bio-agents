@@ -268,8 +268,9 @@ input.addEventListener("keydown", (e) => {
     }
   }
 
-  // Cmd/Ctrl+Enter to send
-  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+  // Enter to send, Shift+Enter for new line
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
     form.dispatchEvent(new Event("submit"));
   }
 });

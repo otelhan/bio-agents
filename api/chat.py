@@ -53,12 +53,24 @@ async def chat(request: ChatRequest):
 
     history = context_store.get_claude_messages(session_id)
 
+    NOT_YET = {"designer": "AI Designer", "farmer": "AI Farmer"}
+
+    # If user explicitly mentioned an agent not yet implemented, say so
+    if parsed.target_agent in NOT_YET and parsed.target_agent not in AGENT_REGISTRY:
+        agent_label = NOT_YET[parsed.target_agent]
+        async def not_implemented():
+            msg = f"{agent_label} is coming soon! For now, only @cfo is available."
+            yield f"data: {json.dumps({'type': 'session_id', 'session_id': session_id})}\n\n"
+            yield f"data: {json.dumps({'type': 'agent', 'agent': agent_label, 'agent_key': parsed.target_agent})}\n\n"
+            yield f"data: {json.dumps({'type': 'text', 'content': msg})}\n\n"
+            yield f"data: {json.dumps({'type': 'done'})}\n\n"
+        return StreamingResponse(not_implemented(), media_type="text/event-stream")
+
     # Determine target agent — use orchestrator if no @mention
     if parsed.target_agent and parsed.target_agent in AGENT_REGISTRY:
         target = parsed.target_agent
     else:
         target = await classify_agent(history, user_content)
-        # Fall back to cfo if classified agent not yet implemented
         if target not in AGENT_REGISTRY:
             target = "cfo"
 
