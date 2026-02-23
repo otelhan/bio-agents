@@ -130,10 +130,16 @@ body {
   transition: border-color 0.15s, color 0.15s;
 }
 
-.suggested-btn:hover {
-  border-color: var(--accent-cfo);
-  color: var(--text);
-}
+.suggested-btn:hover { color: var(--text); }
+
+.suggested-btn--designer { border-color: var(--accent-designer); }
+.suggested-btn--designer:hover { border-color: var(--accent-designer); }
+
+.suggested-btn--farmer { border-color: var(--accent-farmer); }
+.suggested-btn--farmer:hover { border-color: var(--accent-farmer); }
+
+.suggested-btn--cfo { border-color: var(--accent-cfo); }
+.suggested-btn--cfo:hover { border-color: var(--accent-cfo); }
 
 /* ─── Message Bubbles ───────────────────────────────────── */
 .message {

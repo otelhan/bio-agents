@@ -35,21 +35,25 @@ function setActiveAgent(agentKey) {
 }
 
 // ─── Suggested questions ──────────────────────────────────
-async function loadSuggested(agent = "cfo") {
+async function loadSuggested() {
   try {
-    const res = await fetch(`/api/suggested?agent=${agent}`);
-    const data = await res.json();
+    const agents = ["designer", "farmer", "cfo"];
+    const results = await Promise.all(
+      agents.map(a => fetch(`/api/suggested?agent=${a}`).then(r => r.json()))
+    );
     suggestedEl.innerHTML = "";
-    data.questions.forEach((q) => {
-      const btn = document.createElement("button");
-      btn.className = "suggested-btn";
-      btn.textContent = q;
-      btn.onclick = () => {
-        input.value = `@${agent} ${q}`;
-        input.focus();
-        suggestedEl.style.display = "none";
-      };
-      suggestedEl.appendChild(btn);
+    agents.forEach((agent, i) => {
+      (results[i].questions || []).forEach(q => {
+        const btn = document.createElement("button");
+        btn.className = `suggested-btn suggested-btn--${agent}`;
+        btn.textContent = q;
+        btn.onclick = () => {
+          input.value = `@${agent} ${q}`;
+          input.focus();
+          suggestedEl.style.display = "none";
+        };
+        suggestedEl.appendChild(btn);
+      });
     });
   } catch (e) {
     console.warn("Could not load suggested questions", e);
@@ -370,9 +374,9 @@ clearBtn.addEventListener("click", async () => {
   sessionId = null;
   chat.innerHTML = '<div class="suggested" id="suggested"></div>';
   const newSuggested = document.getElementById("suggested");
-  loadSuggested("cfo");
+  loadSuggested();
   setActiveAgent(null);
 });
 
 // ─── Init ─────────────────────────────────────────────────
-loadSuggested("cfo");
+loadSuggested();

@@ -4,6 +4,8 @@ AI CFO Agent — techno-economic modeling for bacterial cellulose production.
 import json
 from agents.base import BaseAgent
 from tools.cfo_calculator import main as run_tem
+from tools import settings_store
+from tools.tem_parser import load_overrides
 
 
 CFO_SYSTEM_PROMPT = """You are an AI CFO for a bacterial cellulose (BC) materials company.
@@ -99,7 +101,12 @@ class CFOAgent(BaseAgent):
 
     async def execute_tool(self, tool_name: str, tool_input: dict) -> str:
         if tool_name == "run_tem_scenario":
-            result = run_tem(**tool_input)
+            # Load TEM file overrides as defaults; tool_input (user-specified) takes precedence
+            cfg = settings_store.load()
+            tem_file = cfg["cfo"].get("tem_model_file", "tem_model.md")
+            defaults = load_overrides(tem_file)
+            merged = {**defaults, **tool_input}
+            result = run_tem(**merged)
             return result["result"]
         return json.dumps({"error": f"Unknown tool: {tool_name}"})
 
