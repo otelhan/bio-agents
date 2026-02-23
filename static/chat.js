@@ -115,7 +115,7 @@ function addAgentMessage(agentName, agentKey) {
   label.textContent = agentName;
 
   const body = document.createElement("div");
-  body.className = "message__body";
+  body.className = `message__body message__body--${agentKey}`;
   body._raw = "";
 
   wrapper.appendChild(label);

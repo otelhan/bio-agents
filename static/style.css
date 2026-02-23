@@ -11,10 +11,13 @@
   --text-muted:  #6b6c72;
 
   /* ── Agent accents ── */
-  --accent-designer: #3a7d52;
-  --accent-farmer:   #8a6d20;
-  --accent-cfo:      #2c5f8a;
+  --accent-designer: #7ebae9;
+  --accent-farmer:   #537d00;
+  --accent-cfo:      #a82924;
   --accent-user:     #6b3fa0;
+
+  /* ── UI action colour (send button, focus ring) ── */
+  --accent-action:   #4a7fb5;
 
   --radius: 12px;
   --font: 'Inter', system-ui, sans-serif;
@@ -222,12 +225,17 @@ body {
 .message__body {
   background: var(--surface-alt);
   border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
   border-radius: 4px var(--radius) var(--radius) var(--radius);
   padding: 10px 14px;
   white-space: pre-wrap;
   word-break: break-word;
   color: var(--text);
 }
+
+.message__body--designer { border-left-color: var(--accent-designer); }
+.message__body--farmer   { border-left-color: var(--accent-farmer); }
+.message__body--cfo      { border-left-color: var(--accent-cfo); }
 
 /* Markdown table */
 .message__body table {
@@ -389,10 +397,10 @@ body {
 }
 
 #input::placeholder { color: var(--text-muted); }
-#input:focus { border-color: var(--accent-cfo); }
+#input:focus { border-color: var(--accent-action); }
 
 #send-btn {
-  background: var(--accent-cfo);
+  background: var(--accent-action);
   color: #fff;
   border: none;
   border-radius: 8px;
