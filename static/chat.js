@@ -36,12 +36,16 @@ function setActiveAgent(agentKey) {
 
 // ─── Suggested questions ──────────────────────────────────
 async function loadSuggested() {
+  // Always query the DOM directly so this works after chat is rebuilt
+  const el = document.getElementById("suggested");
+  if (!el) return;
   try {
     const agents = ["designer", "farmer", "cfo"];
     const results = await Promise.all(
       agents.map(a => fetch(`/api/suggested?agent=${a}`).then(r => r.json()))
     );
-    suggestedEl.innerHTML = "";
+    el.innerHTML = "";
+    el.style.display = "";
     agents.forEach((agent, i) => {
       (results[i].questions || []).forEach(q => {
         const btn = document.createElement("button");
@@ -50,9 +54,9 @@ async function loadSuggested() {
         btn.onclick = () => {
           input.value = `@${agent} ${q}`;
           input.focus();
-          suggestedEl.style.display = "none";
+          el.style.display = "none";
         };
-        suggestedEl.appendChild(btn);
+        el.appendChild(btn);
       });
     });
   } catch (e) {

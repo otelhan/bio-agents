@@ -124,6 +124,24 @@ body {
 
 .clear-btn:hover { color: var(--text); border-color: var(--text-muted); }
 
+.settings-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.settings-btn:hover { color: var(--text); border-color: var(--text-muted); }
+
 /* ─── Chat Area ─────────────────────────────────────────── */
 .chat {
   flex: 1;
