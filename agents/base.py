@@ -2,6 +2,7 @@
 BaseAgent: handles Claude streaming + tool_use loop.
 All agent classes inherit from this.
 """
+import asyncio
 import json
 from typing import AsyncGenerator
 import anthropic
@@ -58,31 +59,35 @@ class BaseAgent:
                 final_message = await stream.get_final_message()
 
             # If no tool use, we're done
-            if not tool_use_block and final_message.stop_reason != "tool_use":
+            if final_message.stop_reason != "tool_use":
                 break
 
-            # Find tool_use content block in final message
-            tool_use_content = None
-            for block in final_message.content:
-                if block.type == "tool_use":
-                    tool_use_content = block
-                    break
+            # Collect ALL tool_use blocks (Claude may call multiple tools at once)
+            tool_use_blocks = [
+                block for block in final_message.content if block.type == "tool_use"
+            ]
 
-            if not tool_use_content:
+            if not tool_use_blocks:
                 break
 
-            # Execute the tool
-            tool_result = await self.execute_tool(tool_use_content.name, tool_use_content.input)
+            # Execute all tools in parallel
+            tool_results = await asyncio.gather(*[
+                self.execute_tool(block.name, block.input)
+                for block in tool_use_blocks
+            ])
 
-            # Add assistant turn + tool result and loop
+            # Add assistant turn + all tool results and loop
             current_messages = current_messages + [
                 {"role": "assistant", "content": final_message.content},
                 {
                     "role": "user",
-                    "content": [{
-                        "type": "tool_result",
-                        "tool_use_id": tool_use_content.id,
-                        "content": tool_result,
-                    }],
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": block.id,
+                            "content": result,
+                        }
+                        for block, result in zip(tool_use_blocks, tool_results)
+                    ],
                 },
             ]
