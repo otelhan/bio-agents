@@ -17,7 +17,7 @@ const chat           = document.getElementById("chat");
 const form           = document.getElementById("form");
 const input          = document.getElementById("input");
 const sendBtn        = document.getElementById("send-btn");
-const suggestedEl    = document.getElementById("suggested");
+let   suggestedEl    = document.getElementById("suggested");
 const mentionMenu    = document.getElementById("mention-menu");
 const clearBtn       = document.getElementById("clear-btn");
 const imageInput     = document.getElementById("image-input");
@@ -373,7 +373,7 @@ clearBtn.addEventListener("click", async () => {
   await fetch("/api/session", { method: "DELETE" });
   sessionId = null;
   chat.innerHTML = '<div class="suggested" id="suggested"></div>';
-  const newSuggested = document.getElementById("suggested");
+  suggestedEl = document.getElementById("suggested");
   loadSuggested();
   setActiveAgent(null);
 });
