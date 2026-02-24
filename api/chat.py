@@ -1,6 +1,7 @@
 import json
 import random
 import uuid
+import anthropic
 from fastapi import APIRouter, Cookie
 from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel
@@ -11,6 +12,35 @@ from agents.farmer import farmer_agent
 from router.mention_router import parse_message
 from router.orchestrator import classify_agent
 from session.context_store import context_store
+from config import get_settings
+
+_AGENT_DOMAIN = {
+    "designer": "material design and bacterial cellulose properties",
+    "farmer": "BC production data and cultivation",
+    "cfo": "techno-economic modeling and BC business financials",
+}
+
+
+async def generate_follow_ups(agent_key: str, question: str, answer: str) -> list[str]:
+    try:
+        client = anthropic.AsyncAnthropic(api_key=get_settings().anthropic_api_key)
+        domain = _AGENT_DOMAIN.get(agent_key, agent_key)
+        msg = await client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=120,
+            messages=[{
+                "role": "user",
+                "content": (
+                    f"Given this Q&A about {domain}, suggest 2 short follow-up questions "
+                    f"the user might want to ask next.\n\n"
+                    f"Q: {question}\nA: {answer[:600]}\n\n"
+                    f'Return only a JSON array of 2 strings. Example: ["Question 1?", "Question 2?"]'
+                ),
+            }],
+        )
+        return json.loads(msg.content[0].text.strip())[:2]
+    except Exception:
+        return []
 
 router = APIRouter()
 
@@ -108,6 +138,9 @@ async def chat(request: ChatRequest):
         complete_response = "".join(full_response)
         if complete_response:
             context_store.add_message(session_id, "assistant", agent.name, complete_response)
+            follow_ups = await generate_follow_ups(target, user_content, complete_response)
+            if follow_ups:
+                yield f"data: {json.dumps({'type': 'follow_up', 'agent_key': target, 'questions': follow_ups})}\n\n"
 
         yield f"data: {json.dumps({'type': 'done'})}\n\n"
 

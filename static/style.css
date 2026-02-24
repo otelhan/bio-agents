@@ -188,6 +188,14 @@ body {
 .suggested-btn--cfo { border-color: var(--accent-cfo); background: #fcf3f3; }
 .suggested-btn--cfo:hover { border-color: var(--accent-cfo); background: #f9e8e8; }
 
+/* ─── Follow-up questions ───────────────────────────────── */
+.follow-up {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding-left: 2px;
+}
+
 /* ─── Message Bubbles ───────────────────────────────────── */
 .message {
   max-width: 82%;

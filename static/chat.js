@@ -263,6 +263,22 @@ async function sendMessage(text) {
             agentBody.innerHTML = renderMarkdown(agentBody._raw);
             scrollToBottom();
           }
+        } else if (payload.type === "follow_up") {
+          const el = document.createElement("div");
+          el.className = "follow-up";
+          payload.questions.forEach(q => {
+            const btn = document.createElement("button");
+            btn.className = `suggested-btn suggested-btn--${payload.agent_key}`;
+            btn.textContent = q;
+            btn.onclick = () => {
+              input.value = `@${payload.agent_key} ${q}`;
+              el.remove();
+              input.focus();
+            };
+            el.appendChild(btn);
+          });
+          chat.appendChild(el);
+          scrollToBottom();
         } else if (payload.type === "error") {
           typing.remove();
           const errEl = document.createElement("div");
