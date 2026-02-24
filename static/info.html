@@ -94,39 +94,18 @@
       margin-bottom: 14px;
     }
 
-    /* ─── Screenshot placeholder ─── */
+    /* ─── Screenshot ─── */
     .screenshot {
-      width: 100%;
       border-radius: var(--radius);
       border: 1px solid var(--border);
-      overflow: hidden;
+      overflow: auto;
       background: var(--surface-alt);
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
 
     .screenshot img {
       display: block;
-      width: 100%;
-      height: auto;
     }
-
-    .screenshot-placeholder {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      background: var(--surface);
-      color: var(--text-muted);
-      font-size: 12px;
-    }
-
-    .screenshot-placeholder .icon { font-size: 28px; opacity: 0.4; }
-    .screenshot-placeholder .label { font-weight: 600; opacity: 0.6; }
 
     /* ─── Agent cards ─── */
     .agent-cards {
@@ -333,12 +312,7 @@
   <div>
     <div class="section-heading">Overview</div>
     <div class="screenshot">
-      <!-- Replace the placeholder below with: <img src="/assets/screenshot-overview.png" alt="Chat interface overview" /> -->
-      <div class="screenshot-placeholder">
-        <span class="icon">🖼</span>
-        <span class="label">Screenshot — chat interface</span>
-        <span>Upload to /assets/screenshot-overview.png</span>
-      </div>
+      <img src="/assets/screenshot-overview.png" alt="Chat interface overview" />
     </div>
   </div>
 
@@ -372,19 +346,6 @@
     </div>
   </div>
 
-  <!-- ─── Screenshot: example reply ─── -->
-  <div>
-    <div class="section-heading">Example reply</div>
-    <div class="screenshot">
-      <!-- Replace the placeholder below with: <img src="/assets/screenshot-reply.png" alt="Example agent reply" /> -->
-      <div class="screenshot-placeholder">
-        <span class="icon">🖼</span>
-        <span class="label">Screenshot — example agent reply</span>
-        <span>Upload to /assets/screenshot-reply.png</span>
-      </div>
-    </div>
-  </div>
-
   <!-- ─── The three agents ─── -->
   <div>
     <div class="section-heading">The agents</div>
@@ -405,6 +366,11 @@
             <li>Draws from an uploadable knowledge base of design criteria and research notes</li>
           </ul>
         </div>
+      </div>
+
+      <!-- Screenshot: @designer image analysis -->
+      <div class="screenshot">
+        <img src="/assets/screenshot-designer.png" alt="@designer analyzing a BC pellicle image" />
       </div>
 
       <div class="agent-card">
@@ -444,6 +410,11 @@
       </div>
 
     </div>
+
+    <!-- Screenshot: example reply -->
+    <div class="screenshot" style="margin-top: 16px;">
+      <img src="/assets/screenshot-reply.png" alt="Example @cfo reply with financial breakdown" />
+    </div>
   </div>
 
   <!-- ─── Settings ─── -->
@@ -452,12 +423,7 @@
 
     <!-- Screenshot: settings page -->
     <div class="screenshot" style="margin-bottom: 20px;">
-      <!-- Replace the placeholder below with: <img src="/assets/screenshot-settings.png" alt="Settings page" /> -->
-      <div class="screenshot-placeholder">
-        <span class="icon">🖼</span>
-        <span class="label">Screenshot — settings page</span>
-        <span>Upload to /assets/screenshot-settings.png</span>
-      </div>
+      <img src="/assets/screenshot-settings.png" alt="Settings page showing all three agent sections" />
     </div>
 
     <div class="how-to">
