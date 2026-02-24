@@ -176,6 +176,15 @@ body {
   line-height: 1.65;
 }
 
+.greeting__guide {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.greeting__guide:hover { color: var(--text); }
+
 /* ─── Suggested Questions ───────────────────────────────── */
 .suggested {
   display: flex;
