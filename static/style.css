@@ -489,6 +489,31 @@ body {
   border: 1px solid var(--border);
 }
 
+/* ─── Footer ─────────────────────────────────────────────── */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 10px 16px 12px;
+  line-height: 1.6;
+  pointer-events: none;
+}
+
+.app-footer a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+.app-footer a:hover {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: underline;
+}
+
 /* ─── Mobile ─────────────────────────────────────────────── */
 @media (max-width: 640px) {
   body {
