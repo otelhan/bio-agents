@@ -485,16 +485,16 @@ body {
 @media (max-width: 640px) {
   body {
     background-attachment: scroll; /* background-attachment: fixed breaks on iOS Safari */
-    align-items: flex-end;
+    align-items: center;
   }
 
   .app {
+    width: calc(100% - 24px);
     max-width: 100%;
-    margin-top: 0;
-    margin-bottom: 0;
-    height: calc(100dvh - 110px); /* leave background visible at top */
-    border-radius: 14px 14px 0 0;
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.25);
+    margin: 0;
+    height: calc(100dvh - 80px);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   }
 
   /* Header: hide brand text, tighten up badges */
