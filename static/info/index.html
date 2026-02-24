@@ -247,6 +247,9 @@
       font-family: monospace;
     }
 
+    .step__text a { color: var(--text); text-decoration: underline; }
+    .step__text a:hover { color: var(--text-muted); }
+
     /* ─── Settings how-to ─── */
     .settings-grid {
       display: flex;
@@ -430,7 +433,10 @@
       <div class="how-to__title">Accessing settings</div>
       <div class="how-to__steps">
         <div class="step">
-          <div class="step__text">Click the ⚙ icon in the top-right corner of the chat. Enter the admin password to unlock the settings panel.</div>
+          <div class="step__text">Click the ⚙ icon in the top-right corner of the chat. The settings panel is password-protected — each private deployment can be configured with its own password and data sources.</div>
+        </div>
+        <div class="step">
+          <div class="step__text">For private deployments with custom data, knowledge base files, and branding, contact <a href="mailto:orkan@design.bio">orkan@design.bio</a>.</div>
         </div>
       </div>
     </div>
