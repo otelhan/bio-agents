@@ -179,14 +179,14 @@ body {
 
 .suggested-btn:hover { color: var(--text); }
 
-.suggested-btn--designer { border-color: var(--accent-designer); }
-.suggested-btn--designer:hover { border-color: var(--accent-designer); }
+.suggested-btn--designer { border-color: var(--accent-designer); background: #f3f8fb; }
+.suggested-btn--designer:hover { border-color: var(--accent-designer); background: #e8f2f9; }
 
-.suggested-btn--farmer { border-color: var(--accent-farmer); }
-.suggested-btn--farmer:hover { border-color: var(--accent-farmer); }
+.suggested-btn--farmer { border-color: var(--accent-farmer); background: #f4f7ee; }
+.suggested-btn--farmer:hover { border-color: var(--accent-farmer); background: #ecf2e2; }
 
-.suggested-btn--cfo { border-color: var(--accent-cfo); }
-.suggested-btn--cfo:hover { border-color: var(--accent-cfo); }
+.suggested-btn--cfo { border-color: var(--accent-cfo); background: #fcf3f3; }
+.suggested-btn--cfo:hover { border-color: var(--accent-cfo); background: #f9e8e8; }
 
 /* ─── Message Bubbles ───────────────────────────────────── */
 .message {
