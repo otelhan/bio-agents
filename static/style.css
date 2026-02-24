@@ -507,7 +507,7 @@ body {
 .app-footer__inner {
   width: 100%;
   max-width: var(--panel-width);
-  text-align: left;
+  text-align: center;
 }
 
 .app-footer a {
