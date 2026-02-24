@@ -510,7 +510,10 @@ body {
 
   .header-right {
     width: 100%;
-    justify-content: space-between;
+  }
+
+  .header-right .clear-btn {
+    margin-left: auto;
   }
 
   .badge {
