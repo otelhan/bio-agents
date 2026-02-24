@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>agents.design.bio — Guide</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #e9eaed;
+      --surface:     #f2f3f5;
+      --surface-alt: #ffffff;
+      --border:      #d4d5d9;
+      --text:        #1a1a1a;
+      --text-muted:  #6b6c72;
+      --accent-designer: #3383bc;
+      --accent-farmer:   #537d00;
+      --accent-cfo:      #cb3c33;
+      --radius: 12px;
+      --font: 'Inter', system-ui, sans-serif;
+      --content-width: 680px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      min-height: 100dvh;
+    }
+
+    /* ─── Header ─── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-brand {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .header a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color 0.15s;
+    }
+
+    .header a:hover { color: var(--text); }
+
+    /* ─── Content ─── */
+    .content {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* ─── Page title ─── */
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+
+    /* ─── Goal block ─── */
+    .goal {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .goal__header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .goal__number {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .goal__title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .goal__desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    .goal__agents {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ─── Agent scenario card ─── */
+    .scenario {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .scenario__header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .scenario__header--designer { background: #f0f6fb; border-left: 3px solid var(--accent-designer); }
+    .scenario__header--farmer   { background: #f3f7ec; border-left: 3px solid var(--accent-farmer); }
+    .scenario__header--cfo      { background: #fdf2f2; border-left: 3px solid var(--accent-cfo); }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      border: 1.5px solid currentColor;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .badge--designer { color: var(--accent-designer); }
+    .badge--farmer   { color: var(--accent-farmer); }
+    .badge--cfo      { color: var(--accent-cfo); }
+
+    .scenario__role {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .scenario__questions {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* ─── Question pill ─── */
+    .q-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+      cursor: pointer;
+      font-family: var(--font);
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .q-pill::before {
+      content: '→';
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .q-pill--designer:hover { border-color: var(--accent-designer); background: #f0f6fb; }
+    .q-pill--farmer:hover   { border-color: var(--accent-farmer);   background: #f3f7ec; }
+    .q-pill--cfo:hover      { border-color: var(--accent-cfo);      background: #fdf2f2; }
+
+    /* ─── Divider ─── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── Footer ─── */
+    .page-footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-bottom: 24px;
+    }
+
+    .page-footer a { color: var(--text-muted); text-decoration: none; }
+    .page-footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-brand">agents.design.bio — guide</span>
+  <div style="display:flex;gap:16px;align-items:center">
+    <a href="/info">About</a>
+    <a href="/">← Back to chat</a>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ─── Intro ─── -->
+  <div>
+    <h1 class="page-title">How to use bio-agents</h1>
+    <p class="page-subtitle">
+      Each goal below maps to a set of scenarios you can explore with the agents. Click any question to open it directly in the chat.
+    </p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ══════════════════════════════════════════════════════
+       GOAL 1
+  ═══════════════════════════════════════════════════════ -->
+  <div class="goal">
+    <div class="goal__header">
+      <span class="goal__number">Goal 1</span>
+      <h2 class="goal__title">Evaluate and improve your BC material</h2>
+    </div>
+    <p class="goal__desc">Understand what your material can and cannot do, then find targeted ways to improve it.</p>
+
+    <div class="goal__agents">
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--designer">
+          <span class="badge badge--designer">@designer</span>
+          <span class="scenario__role">Analyzes images and physical properties of your BC samples to identify structural issues and improvement opportunities.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--designer" href="/?q=@designer+This+sample+looks+translucent+and+slightly+yellow+—+is+that+normal+for+SCOBY-derived+BC,+or+a+sign+of+contamination%3F">This sample looks translucent and slightly yellow — is that normal for SCOBY-derived BC, or a sign of contamination?</a>
+          <a class="q-pill q-pill--designer" href="/?q=@designer+How+do+I+improve+tensile+strength+of+my+BC+pellicles%3F">How do I improve tensile strength of my BC pellicles?</a>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--farmer">
+          <span class="badge badge--farmer">@farmer</span>
+          <span class="scenario__role">Pulls production records to correlate batch conditions with material quality outcomes.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--farmer" href="/?q=@farmer+Which+of+my+batches+produced+the+thickest+pellicle,+and+what+conditions+were+used%3F">Which of my batches produced the thickest pellicle, and what conditions were used?</a>
+          <a class="q-pill q-pill--farmer" href="/?q=@farmer+Which+variables+explain+variation+in+yield+the+best%3F">Which variables explain variation in yield the best?</a>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--cfo">
+          <span class="badge badge--cfo">@cfo</span>
+          <span class="scenario__role">Frames material performance in terms of quality grading and whether improvements justify added input costs.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--cfo" href="/?q=@cfo+What+is+driving+profit/kg%3F+What+should+I+change+to+improve+this%3F">What is driving profit/kg? What should I change to improve this?</a>
+          <a class="q-pill q-pill--cfo" href="/?q=@cfo+How+does+raising+the+fashion+price+to+%2428/kg+affect+NPV%3F">How does raising the fashion price to $28/kg affect NPV?</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ══════════════════════════════════════════════════════
+       GOAL 2
+  ═══════════════════════════════════════════════════════ -->
+  <div class="goal">
+    <div class="goal__header">
+      <span class="goal__number">Goal 2</span>
+      <h2 class="goal__title">Optimize your cultivation process</h2>
+    </div>
+    <p class="goal__desc">Find the conditions that consistently produce more material, faster, with less waste.</p>
+
+    <div class="goal__agents">
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--designer">
+          <span class="badge badge--designer">@designer</span>
+          <span class="scenario__role">Interprets visual cues from cultivation images — pellicle uniformity, surface contamination, thickness distribution — to flag process problems.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--designer" href="/?q=@designer+My+pellicle+has+a+rough,+uneven+surface+on+one+side+—+could+that+be+caused+by+air+bubbles+during+static+culture%3F">My pellicle has a rough, uneven surface on one side — could that be caused by air bubbles during static culture?</a>
+          <a class="q-pill q-pill--designer" href="/?q=@designer+What+drying+methods+preserve+material+properties+best%3F">What drying methods preserve material properties best?</a>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--farmer">
+          <span class="badge badge--farmer">@farmer</span>
+          <span class="scenario__role">Mines your production logs to surface patterns in yield, contamination rate, and growth cycle length.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--farmer" href="/?q=@farmer+What+was+our+best+recipe+for+yield+in+2024%3F">What was our best recipe for yield in 2024?</a>
+          <a class="q-pill q-pill--farmer" href="/?q=@farmer+Which+treatment+had+the+lowest+contamination+rate%3F">Which treatment had the lowest contamination rate?</a>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--cfo">
+          <span class="badge badge--cfo">@cfo</span>
+          <span class="scenario__role">Calculates the cost impact of process changes so you can prioritize optimizations by economic return.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--cfo" href="/?q=@cfo+Run+a+scenario+with+contamination+loss+reduced+to+4%25.">Run a scenario with contamination loss reduced to 4%.</a>
+          <a class="q-pill q-pill--cfo" href="/?q=@cfo+Compare+air+dry+vs+press+dry+drying+methods.">Compare air dry vs press dry drying methods.</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ══════════════════════════════════════════════════════
+       GOAL 3
+  ═══════════════════════════════════════════════════════ -->
+  <div class="goal">
+    <div class="goal__header">
+      <span class="goal__number">Goal 3</span>
+      <h2 class="goal__title">Prepare for scale-up</h2>
+    </div>
+    <p class="goal__desc">Stress-test your process before committing to larger vessels, more equipment, or a new facility.</p>
+
+    <div class="goal__agents">
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--designer">
+          <span class="badge badge--designer">@designer</span>
+          <span class="scenario__role">Evaluates whether your current material properties are consistent and reproducible enough to survive a scale-up transition.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--designer" href="/?q=@designer+What+does+Material+Readiness+level+MR-2+require%3F">What does Material Readiness level MR-2 require?</a>
+          <a class="q-pill q-pill--designer" href="/?q=@designer+What+material+tests+should+I+run+now+to+create+a+quality+benchmark+before+I+scale%3F">What material tests should I run now to create a quality benchmark before I scale?</a>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--farmer">
+          <span class="badge badge--farmer">@farmer</span>
+          <span class="scenario__role">Identifies which production variables are most volatile in your current logs, so you can stabilize them before scaling.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--farmer" href="/?q=@farmer+Show+yield+trends+over+time">Show yield trends over time</a>
+          <a class="q-pill q-pill--farmer" href="/?q=@farmer+Compare+recipe+performance+between+2024+and+2025">Compare recipe performance between 2024 and 2025</a>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--cfo">
+          <span class="badge badge--cfo">@cfo</span>
+          <span class="scenario__role">Models how unit economics shift at larger volumes and flags the break-even point for capital investment.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--cfo" href="/?q=@cfo+What+happens+if+I+increase+capacity+to+100+tonnes%3F">What happens if I increase capacity to 100 tonnes?</a>
+          <a class="q-pill q-pill--cfo" href="/?q=@cfo+What+would+ROI+look+like+at+90%25+capacity+utilization%3F">What would ROI look like at 90% capacity utilization?</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ══════════════════════════════════════════════════════
+       GOAL 4
+  ═══════════════════════════════════════════════════════ -->
+  <div class="goal">
+    <div class="goal__header">
+      <span class="goal__number">Goal 4</span>
+      <h2 class="goal__title">Build a business case</h2>
+    </div>
+    <p class="goal__desc">Translate your material, process, and production data into a financial story that supports investment or commercialization decisions.</p>
+
+    <div class="goal__agents">
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--designer">
+          <span class="badge badge--designer">@designer</span>
+          <span class="scenario__role">Provides material specifications and property comparisons that support claims about your product's performance relative to alternatives.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--designer" href="/?q=@designer+What+quantitative+material+properties+should+I+include+in+a+spec+sheet+to+position+BC+as+a+leather+alternative%3F">What quantitative material properties should I include in a spec sheet to position BC as a leather alternative?</a>
+          <a class="q-pill q-pill--designer" href="/?q=@designer+What+are+the+key+quality+criteria+for+fashion+applications%3F">What are the key quality criteria for fashion applications?</a>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--farmer">
+          <span class="badge badge--farmer">@farmer</span>
+          <span class="scenario__role">Summarizes historical production performance — yields, batch success rate, input efficiency — as evidence of operational reliability.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--farmer" href="/?q=@farmer+What+is+the+average+yield+across+all+runs%3F">What is the average yield across all runs?</a>
+          <a class="q-pill q-pill--farmer" href="/?q=@farmer+What+are+the+top+3+runs+by+yield%3F">What are the top 3 runs by yield?</a>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario__header scenario__header--cfo">
+          <span class="badge badge--cfo">@cfo</span>
+          <span class="scenario__role">Builds the full techno-economic model: COGS, margin projections, NPV, and payback period under different market scenarios.</span>
+        </div>
+        <div class="scenario__questions">
+          <a class="q-pill q-pill--cfo" href="/?q=@cfo+What+is+the+scenario+using+all+defaults%3F">What is the scenario using all defaults?</a>
+          <a class="q-pill q-pill--cfo" href="/?q=@cfo+What+is+the+minimum+sellable+yield+needed+to+break+even%3F">What is the minimum sellable yield needed to break even?</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── Footer ─── -->
+  <div class="page-footer">
+    <a href="http://design.bio" target="_blank" rel="noopener">© 2026 Orkan Telhan · design.bio</a>
+  </div>
+
+</div>
+</body>
+</html>

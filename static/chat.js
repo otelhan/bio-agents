@@ -421,3 +421,11 @@ clearBtn.addEventListener("click", async () => {
 
 // ─── Init ─────────────────────────────────────────────────
 loadSuggested();
+
+// Pre-fill and send query from ?q= URL param (e.g. from /guide)
+const urlQ = new URLSearchParams(location.search).get("q");
+if (urlQ) {
+  history.replaceState(null, "", "/");
+  input.value = urlQ;
+  form.dispatchEvent(new Event("submit"));
+}
