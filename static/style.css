@@ -357,6 +357,8 @@ body {
 }
 
 /* ─── Image preview bar ─────────────────────────────────── */
+.image-preview-bar[hidden] { display: none !important; }
+
 .image-preview-bar {
   display: flex;
   align-items: center;
