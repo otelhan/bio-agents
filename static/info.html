@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bio-agents — About</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #e9eaed;
+      --surface:     #f2f3f5;
+      --surface-alt: #ffffff;
+      --border:      #d4d5d9;
+      --text:        #1a1a1a;
+      --text-muted:  #6b6c72;
+      --accent-designer: #3383bc;
+      --accent-farmer:   #537d00;
+      --accent-cfo:      #cb3c33;
+      --radius: 12px;
+      --font: 'Inter', system-ui, sans-serif;
+      --content-width: 640px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      min-height: 100dvh;
+    }
+
+    /* ─── Header ─── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-brand {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .header a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color 0.15s;
+    }
+
+    .header a:hover { color: var(--text); }
+
+    /* ─── Content ─── */
+    .content {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* ─── Page title ─── */
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+
+    /* ─── Section headings ─── */
+    .section-heading {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* ─── Screenshot placeholder ─── */
+    .screenshot {
+      width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--surface-alt);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .screenshot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .screenshot-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .screenshot-placeholder .icon { font-size: 28px; opacity: 0.4; }
+    .screenshot-placeholder .label { font-weight: 600; opacity: 0.6; }
+
+    /* ─── Agent cards ─── */
+    .agent-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .agent-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .agent-card__header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .agent-card__header--designer { background: #f0f6fb; border-left: 3px solid var(--accent-designer); }
+    .agent-card__header--farmer   { background: #f3f7ec; border-left: 3px solid var(--accent-farmer); }
+    .agent-card__header--cfo      { background: #fdf2f2; border-left: 3px solid var(--accent-cfo); }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      border: 1.5px solid currentColor;
+      letter-spacing: 0.02em;
+    }
+
+    .badge--designer { color: var(--accent-designer); }
+    .badge--farmer   { color: var(--accent-farmer); }
+    .badge--cfo      { color: var(--accent-cfo); }
+
+    .agent-card__title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .agent-card__body {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .agent-card__desc {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .agent-card__capabilities {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .agent-card__capabilities li {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-left: 14px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .agent-card__capabilities li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--border);
+    }
+
+    /* ─── How-to card ─── */
+    .how-to {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .how-to__title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .how-to__steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .step__num {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .step__text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .step__text code {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    /* ─── Settings how-to ─── */
+    .settings-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .settings-row {
+      display: flex;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      align-items: flex-start;
+    }
+
+    .settings-row__label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+      padding-top: 1px;
+      min-width: 80px;
+    }
+
+    .settings-row__desc {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ─── Footer ─── */
+    .page-footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-bottom: 24px;
+    }
+
+    .page-footer a { color: var(--text-muted); }
+    .page-footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-brand">agents.design.bio — about</span>
+  <a href="/">← Back to chat</a>
+</div>
+
+<div class="content">
+
+  <!-- ─── Intro ─── -->
+  <div>
+    <h1 class="page-title">bio-agents</h1>
+    <p class="page-subtitle">
+      A multi-agent assistant for biological design. Three specialized agents help you design, cultivate, and financially model bio-based materials — starting with bacterial cellulose. Each agent draws on its own knowledge base and tools; you can talk to them individually or let the system route your question automatically.
+    </p>
+  </div>
+
+  <!-- ─── Screenshot: overview ─── -->
+  <div>
+    <div class="section-heading">Overview</div>
+    <div class="screenshot">
+      <!-- Replace the placeholder below with: <img src="/assets/screenshot-overview.png" alt="Chat interface overview" /> -->
+      <div class="screenshot-placeholder">
+        <span class="icon">🖼</span>
+        <span class="label">Screenshot — chat interface</span>
+        <span>Upload to /assets/screenshot-overview.png</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── How to chat ─── -->
+  <div>
+    <div class="section-heading">How to use</div>
+    <div class="how-to">
+      <div class="how-to__title">Talking to agents</div>
+      <div class="how-to__steps">
+        <div class="step">
+          <div class="step__num">1</div>
+          <div class="step__text">Type your question in the message box. If your question has a clear topic (design, cultivation, finances), the system routes it to the right agent automatically.</div>
+        </div>
+        <div class="step">
+          <div class="step__num">2</div>
+          <div class="step__text">To address a specific agent directly, type <code>@</code> to open the mention menu and select an agent — or type <code>@designer</code>, <code>@farmer</code>, or <code>@cfo</code> followed by your question.</div>
+        </div>
+        <div class="step">
+          <div class="step__num">3</div>
+          <div class="step__text">After each answer, two follow-up questions appear. Click any to continue the conversation in that direction.</div>
+        </div>
+        <div class="step">
+          <div class="step__num">4</div>
+          <div class="step__text">To attach an image of a BC pellicle for analysis, click the 📎 button or drag and drop an image. Send it to <code>@designer</code>.</div>
+        </div>
+        <div class="step">
+          <div class="step__num">5</div>
+          <div class="step__text">Use the ↺ button in the header to clear the conversation and start fresh.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Screenshot: example reply ─── -->
+  <div>
+    <div class="section-heading">Example reply</div>
+    <div class="screenshot">
+      <!-- Replace the placeholder below with: <img src="/assets/screenshot-reply.png" alt="Example agent reply" /> -->
+      <div class="screenshot-placeholder">
+        <span class="icon">🖼</span>
+        <span class="label">Screenshot — example agent reply</span>
+        <span>Upload to /assets/screenshot-reply.png</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── The three agents ─── -->
+  <div>
+    <div class="section-heading">The agents</div>
+    <div class="agent-cards">
+
+      <div class="agent-card">
+        <div class="agent-card__header agent-card__header--designer">
+          <span class="badge badge--designer">@designer</span>
+          <span class="agent-card__title">AI Designer</span>
+        </div>
+        <div class="agent-card__body">
+          <p class="agent-card__desc">Advises on bacterial cellulose material design — from cultivation parameters and post-processing to quality criteria and design applications. Can also analyze images of BC pellicles to estimate mechanical properties.</p>
+          <ul class="agent-card__capabilities">
+            <li>Answers questions about BC properties, drying methods, surface treatments, and plasticizers</li>
+            <li>Evaluates material against readiness levels (MR-1 through MR-3)</li>
+            <li>Recommends experiment designs (DoE) to improve target properties</li>
+            <li>Analyzes uploaded pellicle images: estimates tensile strength, elongation, stiffness, and uniformity</li>
+            <li>Draws from an uploadable knowledge base of design criteria and research notes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-card__header agent-card__header--farmer">
+          <span class="badge badge--farmer">@farmer</span>
+          <span class="agent-card__title">AI Farmer</span>
+        </div>
+        <div class="agent-card__body">
+          <p class="agent-card__desc">Analyzes your production records — runs and treatment logs — to surface patterns, compare recipes, and identify what drives yield and quality. Connects directly to your Google Sheets data.</p>
+          <ul class="agent-card__capabilities">
+            <li>Queries and filters production data by date, recipe, or treatment</li>
+            <li>Ranks runs by yield, contamination, or any metric</li>
+            <li>Identifies which variables (temperature, media, inoculum) most influence yield</li>
+            <li>Detects anomalies and outliers in the dataset</li>
+            <li>Compares performance between time periods or recipe groups</li>
+            <li>Generates summary tables and trend analyses</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-card__header agent-card__header--cfo">
+          <span class="badge badge--cfo">@cfo</span>
+          <span class="agent-card__title">AI CFO</span>
+        </div>
+        <div class="agent-card__body">
+          <p class="agent-card__desc">Runs techno-economic scenarios for BC production. Given parameters like capacity, market mix, costs, and treatment methods, it computes revenue, EBITDA, net income, profit per kg, 5-year NPV, and payback period.</p>
+          <ul class="agent-card__capabilities">
+            <li>Models production at any scale with configurable capacity and utilization</li>
+            <li>Supports three market segments: fashion, automotive, and upholstery</li>
+            <li>Accounts for contamination and drying losses, quality grading, and treatment costs</li>
+            <li>Calculates NPV, ROI, and payback period</li>
+            <li>Runs sensitivity analyses ("what if I change X?")</li>
+            <li>Compares scenarios side by side (e.g. air dry vs. press dry)</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── Settings ─── -->
+  <div>
+    <div class="section-heading">Configuring settings</div>
+
+    <!-- Screenshot: settings page -->
+    <div class="screenshot" style="margin-bottom: 20px;">
+      <!-- Replace the placeholder below with: <img src="/assets/screenshot-settings.png" alt="Settings page" /> -->
+      <div class="screenshot-placeholder">
+        <span class="icon">🖼</span>
+        <span class="label">Screenshot — settings page</span>
+        <span>Upload to /assets/screenshot-settings.png</span>
+      </div>
+    </div>
+
+    <div class="how-to">
+      <div class="how-to__title">Accessing settings</div>
+      <div class="how-to__steps">
+        <div class="step">
+          <div class="step__num">1</div>
+          <div class="step__text">Click the ⚙ icon in the top-right corner of the chat. Enter the admin password to unlock the settings panel.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+
+    <div class="settings-grid">
+      <div class="settings-row">
+        <div class="settings-row__label">@designer</div>
+        <div class="settings-row__desc">Upload <code>.md</code> knowledge base files containing design criteria, research notes, or material specs. Also configure the Replicate model version used for pellicle image analysis.</div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row__label">@farmer</div>
+        <div class="settings-row__desc">Paste your Google Sheets URLs for the runs and treatments datasets. The app converts them to CSV automatically — the sheet must be publicly accessible or shared via link.</div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row__label">@cfo</div>
+        <div class="settings-row__desc">Upload a <code>.md</code> file with YAML frontmatter to override the default techno-economic model parameters (capacity, prices, costs, etc.). If no file is uploaded, built-in defaults are used.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Footer ─── -->
+  <div class="page-footer">
+    Outputs are based on predefined models and assumptions and are intended to support — not replace — expert judgment.<br>
+    <a href="https://forms.gle/UWR4ykXbUsmbzbqP7" target="_blank" rel="noopener">Share feedback via this form.</a>
+    &nbsp;·&nbsp;
+    <a href="http://design.bio" target="_blank" rel="noopener">© 2026 Orkan Telhan · design.bio</a>
+  </div>
+
+</div>
+</body>
+</html>
