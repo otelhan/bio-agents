@@ -1,4 +1,5 @@
 import json
+import random
 import uuid
 from fastapi import APIRouter, Cookie
 from fastapi.responses import StreamingResponse, JSONResponse
@@ -25,17 +26,36 @@ SUGGESTED_QUESTIONS = {
         "Why is profit negative?",
         "What is driving profit/kg? What should I change to improve this?",
         "Run a scenario with contamination loss reduced to 4%.",
+        "What happens if I increase capacity to 100 tonnes?",
+        "How does raising the fashion price to $28/kg affect NPV?",
+        "What is the minimum sellable yield needed to break even?",
+        "Compare air dry vs press dry drying methods.",
+        "What would ROI look like at 90% capacity utilization?",
+        "How sensitive is profit to raw material cost changes?",
     ],
     "farmer": [
         "What was our best recipe for yield in 2024?",
         "Show yield by recipe as a table",
         "Which variables explain variation in yield the best?",
         "Show the production dataset from 2024",
+        "What is the average yield across all runs?",
+        "Which treatment had the lowest contamination rate?",
+        "Show me yield trends over time",
+        "What are the top 3 runs by yield?",
+        "How does temperature affect yield?",
+        "Compare recipe performance between 2024 and 2025",
     ],
     "designer": [
         "How can I improve my bacterial cellulose pellicles?",
         "What are the best ways to design my experiments?",
         "What are some good applications of Bacterial Cellulose?",
+        "What does Material Readiness level MR-2 require?",
+        "How do I improve tensile strength of BC?",
+        "What drying methods preserve material properties best?",
+        "How does plasticizer affect BC flexibility?",
+        "What are the key quality criteria for fashion applications?",
+        "How can I make BC more uniform across batches?",
+        "What surface treatments improve BC for leather alternatives?",
     ],
 }
 
@@ -104,7 +124,8 @@ async def chat(request: ChatRequest):
 
 @router.get("/suggested")
 async def suggested_questions(agent: str = "cfo"):
-    return {"questions": SUGGESTED_QUESTIONS.get(agent, [])}
+    pool = SUGGESTED_QUESTIONS.get(agent, [])
+    return {"questions": random.sample(pool, min(2, len(pool)))}
 
 
 @router.delete("/session")
