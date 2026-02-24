@@ -215,12 +215,12 @@ async function sendMessage(text) {
   sendBtn.disabled = true;
   suggestedEl.style.display = "none";
 
-  // Capture and clear pending image before async work
+  // Capture pending image — add to message first, then clear (revoking after DOM load is safe)
   const imageUrl = pendingImageUrl;
   const imageId  = pendingImageId;
-  clearImagePreview();
 
   addUserMessage(text, imageUrl);
+  clearImagePreview();
   const typing = addTypingIndicator();
 
   try {

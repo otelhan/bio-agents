@@ -47,9 +47,9 @@ body {
   flex-direction: column;
   width: 100%;
   max-width: var(--panel-width);
-  height: calc(100dvh - 72px);
-  margin-top: 40px;
-  margin-bottom: 32px;
+  height: calc(100dvh - 130px);
+  margin-top: 64px;
+  margin-bottom: 66px;
   background: var(--bg);
   position: relative;
   border-radius: 12px;
