@@ -202,6 +202,19 @@
     .q-pill--farmer:hover   { border-color: var(--accent-farmer);   background: #f3f7ec; }
     .q-pill--cfo:hover      { border-color: var(--accent-cfo);      background: #fdf2f2; }
 
+    /* ─── Tip ─── */
+    .tip {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 8px 12px;
+      background: var(--surface);
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+
+    .tip a { color: var(--accent-designer); text-decoration: none; }
+    .tip a:hover { text-decoration: underline; }
+
     /* ─── Divider ─── */
     .divider {
       border: none;
@@ -263,6 +276,7 @@
         <div class="scenario__questions">
           <a class="q-pill q-pill--designer" href="/?q=@designer+This+sample+looks+translucent+and+slightly+yellow+—+is+that+normal+for+SCOBY-derived+BC,+or+a+sign+of+contamination%3F">This sample looks translucent and slightly yellow — is that normal for SCOBY-derived BC, or a sign of contamination?</a>
           <a class="q-pill q-pill--designer" href="/?q=@designer+How+do+I+improve+tensile+strength+of+my+BC+pellicles%3F">How do I improve tensile strength of my BC pellicles?</a>
+          <p class="tip">Don't have a BC sample yet? <a href="/assets/test_images.zip" download>Download the test images</a> to try the image analysis feature — upload one to the chat and ask <strong>@designer</strong> to analyze it.</p>
         </div>
       </div>
 
