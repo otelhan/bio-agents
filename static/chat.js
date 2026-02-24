@@ -17,6 +17,7 @@ const chat           = document.getElementById("chat");
 const form           = document.getElementById("form");
 const input          = document.getElementById("input");
 const sendBtn        = document.getElementById("send-btn");
+const greetingEl     = document.getElementById("greeting");
 let   suggestedEl    = document.getElementById("suggested");
 const mentionMenu    = document.getElementById("mention-menu");
 const clearBtn       = document.getElementById("clear-btn");
@@ -54,7 +55,7 @@ async function loadSuggested() {
         btn.onclick = () => {
           input.value = `@${agent} ${q}`;
           input.focus();
-          el.style.display = "none";
+          greetingEl.style.display = "none";
         };
         el.appendChild(btn);
       });
@@ -213,7 +214,7 @@ async function sendMessage(text) {
 
   isStreaming = true;
   sendBtn.disabled = true;
-  suggestedEl.style.display = "none";
+  greetingEl.style.display = "none";
 
   // Capture pending image — add to message first, then clear (revoking after DOM load is safe)
   const imageUrl = pendingImageUrl;
@@ -412,8 +413,8 @@ form.addEventListener("submit", (e) => {
 clearBtn.addEventListener("click", async () => {
   await fetch("/api/session", { method: "DELETE" });
   sessionId = null;
-  // Remove only messages and typing indicators — leave #suggested in place
-  chat.querySelectorAll(".message, .typing").forEach(el => el.remove());
+  chat.querySelectorAll(".message, .typing, .follow-up").forEach(el => el.remove());
+  greetingEl.style.display = "";
   loadSuggested();
   setActiveAgent(null);
 });
