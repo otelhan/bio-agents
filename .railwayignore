@@ -1,0 +1,8 @@
+.env
+.env.local
+data/settings.json
+data/kb/
+data/uploads/
+__pycache__/
+.venv/
+*.pyc

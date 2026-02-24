@@ -66,24 +66,44 @@ async function loadSuggested() {
 
 // ─── Markdown renderer ────────────────────────────────────
 function renderMarkdown(text) {
-  // Tables
+  // Tables — wrap in scrollable container
+  const stripMd = s => s.replace(/\*\*(.+?)\*\*/g, "$1").replace(/\*(.+?)\*/g, "$1");
   text = text.replace(
     /^\|(.+)\|\s*\n\|[-| :]+\|\s*\n((?:\|.+\|\s*\n?)*)/gm,
     (_, header, rows) => {
       const ths = header.split("|").filter(Boolean)
-        .map(h => `<th>${h.trim()}</th>`).join("");
+        .map(h => `<th>${stripMd(h.trim())}</th>`).join("");
       const trs = rows.trim().split("\n").map(row => {
         const tds = row.split("|").filter(Boolean)
-          .map(c => `<td>${c.trim()}</td>`).join("");
+          .map(c => `<td>${stripMd(c.trim())}</td>`).join("");
         return `<tr>${tds}</tr>`;
       }).join("");
-      return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+      return `<div class="table-wrap"><table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
     }
   );
+  // Strip lone hash(es) with no content (e.g. a bare "#" on its own line)
+  text = text.replace(/^#{1,6}[ \t]*$/gm, "");
+  // Normalize: ensure headings start on their own line (Claude sometimes inlines them)
+  text = text.replace(/([^\n])(#{1,3} )/g, "$1\n$2");
+  // Headings
+  text = text.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+  text = text.replace(/^## (.+)$/gm, "<h2>$1</h2>");
+  text = text.replace(/^# (.+)$/gm, "<h2>$1</h2>");
+  // Horizontal rules
+  text = text.replace(/^---+$/gm, "<hr>");
   text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   text = text.replace(/\*(.+?)\*/g, "<em>$1</em>");
   text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
+  // Collapse 3+ consecutive newlines to 2 to avoid large empty gaps
+  text = text.replace(/\n{3,}/g, "\n\n");
   text = text.replace(/\n/g, "<br>");
+  // Strip lone # chars — must run BEFORE the <br>-after-block strip so the surrounding <br> are still present
+  text = text.replace(/(^|<br>)[ \t]*#{1,6}[ \t]*(<br>|$)/g, "$1$2");
+  // Strip <br> immediately after block elements (heading/hr already provide spacing via CSS margin)
+  text = text.replace(/(<\/h[23]>|<hr>)(<br>)+/g, "$1");
+  // Strip leading/trailing breaks (Claude often starts with a newline)
+  text = text.replace(/^(<br>\s*)+/, "");
+  text = text.replace(/(<br>\s*)+$/, "");
   return text;
 }
 

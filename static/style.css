@@ -228,20 +228,50 @@ body {
   border-left: 3px solid var(--border);
   border-radius: 4px var(--radius) var(--radius) var(--radius);
   padding: 10px 14px;
-  white-space: pre-wrap;
+  white-space: normal;
   word-break: break-word;
   color: var(--text);
+  overflow: hidden;
 }
 
 .message__body--designer { border-left-color: var(--accent-designer); background: #f3f8fb; }
 .message__body--farmer   { border-left-color: var(--accent-farmer);   background: #f4f7ee; }
 .message__body--cfo      { border-left-color: var(--accent-cfo);      background: #fcf3f3; }
 
+/* Markdown headings */
+.message__body h2 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 12px 0 6px;
+  color: var(--text);
+}
+
+.message__body h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 10px 0 6px;
+  color: var(--text);
+}
+
+.message__body hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 10px 0;
+}
+
 /* Markdown table */
+.table-wrap {
+  overflow-x: auto;
+  margin: 8px 0;
+  border-radius: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
 .message__body table {
   border-collapse: collapse;
-  width: 100%;
-  margin: 8px 0;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
   font-size: 12px;
 }
 
@@ -249,6 +279,7 @@ body {
   border: 1px solid var(--border);
   padding: 5px 10px;
   text-align: left;
+  white-space: nowrap;
 }
 
 .message__body th {

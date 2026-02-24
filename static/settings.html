@@ -8,14 +8,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0f0f0f;
-      --surface: #1a1a1a;
-      --border: #2a2a2a;
-      --text: #e8e8e8;
-      --text-muted: #888;
-      --accent-designer: #a8d8b0;
-      --accent-farmer: #d8c8a0;
-      --accent-cfo: #a8c0d8;
+      --bg:          #e9eaed;
+      --surface:     #f2f3f5;
+      --surface-alt: #ffffff;
+      --border:      #d4d5d9;
+      --text:        #1a1a1a;
+      --text-muted:  #6b6c72;
+      --accent-designer: #3383bc;
+      --accent-farmer:   #537d00;
+      --accent-cfo:      #cb3c33;
       --radius: 12px;
       --font: 'Inter', system-ui, sans-serif;
     }
@@ -33,12 +34,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 24px;
+      padding: 12px 24px;
       border-bottom: 1px solid var(--border);
       background: var(--surface);
       position: sticky;
       top: 0;
       z-index: 10;
+    }
+
+    .header-brand {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
     }
 
     .header a {
@@ -50,18 +58,16 @@
 
     .header a:hover { color: var(--text); }
 
-    .header-title { font-size: 15px; font-weight: 600; letter-spacing: 0.03em; }
-
     /* ─── Login overlay ─── */
     #login-overlay {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: calc(100dvh - 53px);
+      min-height: calc(100dvh - 49px);
     }
 
     .login-box {
-      background: var(--surface);
+      background: var(--surface-alt);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 32px 40px;
@@ -69,13 +75,14 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     }
 
     .login-box h2 { font-size: 16px; font-weight: 600; }
-    .login-box p { color: var(--text-muted); font-size: 12px; }
+    .login-box p  { color: var(--text-muted); font-size: 12px; }
 
     .login-error {
-      color: #e8a0a0;
+      color: var(--accent-cfo);
       font-size: 12px;
       display: none;
     }
@@ -83,31 +90,39 @@
     /* ─── Settings content ─── */
     #settings-content {
       display: none;
-      max-width: 680px;
+      max-width: 640px;
       margin: 0 auto;
       padding: 32px 24px 64px;
     }
 
+    /* ─── Agent section cards ─── */
     .section {
-      margin-bottom: 32px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 20px;
     }
 
     .section-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 16px;
-      padding-bottom: 10px;
+      padding: 14px 18px;
       border-bottom: 1px solid var(--border);
     }
+
+    .section-header--designer { background: #f0f6fb; border-left: 3px solid var(--accent-designer); }
+    .section-header--farmer   { background: #f3f7ec; border-left: 3px solid var(--accent-farmer); }
+    .section-header--cfo      { background: #fdf2f2; border-left: 3px solid var(--accent-cfo); }
 
     .section-badge {
       font-size: 10px;
       font-weight: 600;
-      padding: 3px 10px;
+      padding: 3px 9px;
       border-radius: 20px;
-      border: 1px solid currentColor;
-      letter-spacing: 0.05em;
+      border: 1.5px solid currentColor;
+      letter-spacing: 0.02em;
     }
 
     .section-badge--designer { color: var(--accent-designer); }
@@ -115,15 +130,19 @@
     .section-badge--cfo      { color: var(--accent-cfo); }
 
     .section-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
+      color: var(--text);
+    }
+
+    .section-body {
+      padding: 18px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     /* ─── Form elements ─── */
-    .field {
-      margin-bottom: 16px;
-    }
-
     .field label {
       display: block;
       font-size: 11px;
@@ -131,7 +150,7 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 8px;
+      margin-bottom: 7px;
     }
 
     .field-row {
@@ -143,7 +162,7 @@
     input[type="password"],
     input[type="url"] {
       width: 100%;
-      background: var(--bg);
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
       color: var(--text);
@@ -154,55 +173,50 @@
       transition: border-color 0.15s;
     }
 
-    input:focus { border-color: var(--accent-cfo); }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="url"]:focus { border-color: var(--text-muted); }
 
     .btn {
-      background: var(--surface);
+      background: none;
       border: 1px solid var(--border);
-      color: var(--text);
+      color: var(--text-muted);
       border-radius: 8px;
       padding: 9px 18px;
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
       white-space: nowrap;
+      font-family: var(--font);
       transition: border-color 0.15s, color 0.15s;
     }
 
-    .btn:hover { border-color: var(--text-muted); }
-
-    .btn-primary {
-      background: var(--accent-cfo);
-      border-color: var(--accent-cfo);
-      color: #000;
-      font-weight: 600;
-    }
-
-    .btn-primary:hover { opacity: 0.85; }
+    .btn:hover { border-color: var(--text-muted); color: var(--text); }
 
     .btn-danger {
-      color: #e8a0a0;
-      border-color: transparent;
       background: none;
+      border: 1px solid transparent;
+      color: var(--accent-cfo);
       padding: 4px 10px;
       font-size: 12px;
+      border-radius: 6px;
     }
 
-    .btn-danger:hover { border-color: #e8a0a0; }
+    .btn-danger:hover { border-color: var(--accent-cfo); }
 
     /* ─── File list ─── */
     .file-list {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .file-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--bg);
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 8px 12px;
@@ -211,10 +225,11 @@
     .file-item-name {
       font-size: 13px;
       font-family: monospace;
+      color: var(--text);
     }
 
     .file-check {
-      color: var(--accent-designer);
+      color: #537d00;
       margin-right: 8px;
       font-size: 12px;
     }
@@ -231,36 +246,35 @@
       border-radius: 8px;
       padding: 8px 14px;
       transition: border-color 0.15s, color 0.15s;
+      font-family: var(--font);
     }
 
-    .upload-label:hover {
-      border-color: var(--text-muted);
-      color: var(--text);
-    }
+    .upload-label:hover { border-color: var(--text-muted); color: var(--text); }
 
     input[type="file"] { display: none; }
 
-    /* ─── Status message ─── */
+    /* ─── Status / hint ─── */
     .status {
       font-size: 11px;
       height: 16px;
       transition: opacity 0.3s;
     }
 
-    .status--ok  { color: var(--accent-designer); }
-    .status--err { color: #e8a0a0; }
+    .status--ok  { color: #537d00; }
+    .status--err { color: var(--accent-cfo); }
 
     .hint {
       font-size: 11px;
       color: var(--text-muted);
       margin-top: 4px;
+      line-height: 1.5;
     }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-title">bio-agents — Settings</div>
+  <span class="header-brand">agents.design.bio — settings</span>
   <div style="display:flex;gap:16px;align-items:center">
     <a href="/" id="back-link">← Back to chat</a>
     <a href="#" id="logout-btn" style="display:none">Logout</a>
@@ -286,75 +300,84 @@
 
   <!-- AI DESIGNER -->
   <div class="section">
-    <div class="section-header">
+    <div class="section-header section-header--designer">
       <span class="section-badge section-badge--designer">@designer</span>
       <span class="section-title">AI Designer</span>
     </div>
+    <div class="section-body">
 
-    <div class="field">
-      <label>Knowledge Base Files</label>
-      <div class="file-list" id="kb-file-list">
-        <div style="color:var(--text-muted);font-size:12px">No files uploaded yet.</div>
+      <div class="field">
+        <label>Knowledge Base Files</label>
+        <div class="file-list" id="kb-file-list">
+          <div style="color:var(--text-muted);font-size:12px">No files uploaded yet.</div>
+        </div>
+        <label class="upload-label">
+          <span>+ Upload .md file</span>
+          <input type="file" id="kb-upload" accept=".md" />
+        </label>
+        <div class="status" id="kb-status"></div>
       </div>
-      <label class="upload-label">
-        <span>+ Upload .md file</span>
-        <input type="file" id="kb-upload" accept=".md" />
-      </label>
-      <div class="status" id="kb-status"></div>
-    </div>
 
-    <div class="field">
-      <label>Replicate Model Version</label>
-      <div class="field-row">
-        <input type="text" id="replicate-version" placeholder="e.g. f7885cde3a…" />
-        <button class="btn" id="save-designer-btn">Save</button>
+      <div class="field">
+        <label>Replicate Model Version</label>
+        <div class="field-row">
+          <input type="text" id="replicate-version" placeholder="e.g. f7885cde3a…" />
+          <button class="btn" id="save-designer-btn">Save</button>
+        </div>
+        <div class="status" id="designer-status"></div>
       </div>
-      <div class="status" id="designer-status"></div>
+
     </div>
   </div>
 
   <!-- AI FARMER -->
   <div class="section">
-    <div class="section-header">
+    <div class="section-header section-header--farmer">
       <span class="section-badge section-badge--farmer">@farmer</span>
       <span class="section-title">AI Farmer</span>
     </div>
+    <div class="section-body">
 
-    <div class="field">
-      <label>Runs Spreadsheet URL</label>
-      <input type="url" id="runs-url" placeholder="https://docs.google.com/spreadsheets/d/…" />
-      <p class="hint">Google Sheets URL (edit or share link — the app converts it to CSV).</p>
-    </div>
+      <div class="field">
+        <label>Runs Spreadsheet URL</label>
+        <input type="url" id="runs-url" placeholder="https://docs.google.com/spreadsheets/d/…" />
+        <p class="hint">Google Sheets URL (edit or share link — the app converts it to CSV).</p>
+      </div>
 
-    <div class="field">
-      <label>Treatments Spreadsheet URL</label>
-      <input type="url" id="treatments-url" placeholder="https://docs.google.com/spreadsheets/d/…" />
-    </div>
+      <div class="field">
+        <label>Treatments Spreadsheet URL</label>
+        <input type="url" id="treatments-url" placeholder="https://docs.google.com/spreadsheets/d/…" />
+      </div>
 
-    <div class="field-row" style="margin-top:4px">
-      <button class="btn btn-primary" id="save-farmer-btn">Save Farmer Settings</button>
-      <div class="status" id="farmer-status" style="align-self:center;padding-left:8px"></div>
+      <div class="field-row">
+        <button class="btn" id="save-farmer-btn">Save Farmer Settings</button>
+        <div class="status" id="farmer-status" style="align-self:center;padding-left:8px"></div>
+      </div>
+
     </div>
   </div>
 
   <!-- AI CFO -->
   <div class="section">
-    <div class="section-header">
+    <div class="section-header section-header--cfo">
       <span class="section-badge section-badge--cfo">@cfo</span>
       <span class="section-title">AI CFO</span>
     </div>
+    <div class="section-body">
 
-    <div class="field">
-      <label>TEM Model File</label>
-      <div class="file-list" id="tem-file-list">
-        <div style="color:var(--text-muted);font-size:12px">Using built-in defaults.</div>
+      <div class="field">
+        <label>TEM Model File</label>
+        <div class="file-list" id="tem-file-list">
+          <div style="color:var(--text-muted);font-size:12px">Using built-in defaults.</div>
+        </div>
+        <label class="upload-label">
+          <span>+ Upload new .md file</span>
+          <input type="file" id="tem-upload" accept=".md" />
+        </label>
+        <p class="hint">Upload a markdown file with YAML frontmatter to override TEM default parameters.</p>
+        <div class="status" id="tem-status"></div>
       </div>
-      <label class="upload-label">
-        <span>+ Upload new .md file</span>
-        <input type="file" id="tem-upload" accept=".md" />
-      </label>
-      <p class="hint">Upload a markdown file with YAML frontmatter to override TEM default parameters.</p>
-      <div class="status" id="tem-status"></div>
+
     </div>
   </div>
 
@@ -363,7 +386,6 @@
 <script>
   const API = '/api';
 
-  // ─── Helpers ───────────────────────────────────────────────
   function showStatus(el, msg, ok) {
     el.textContent = msg;
     el.className = 'status ' + (ok ? 'status--ok' : 'status--err');
@@ -384,7 +406,6 @@
     return data;
   }
 
-  // ─── Login ─────────────────────────────────────────────────
   async function tryLogin(pw) {
     try {
       await api('POST', '/settings/auth', { password: pw });
@@ -408,32 +429,21 @@
     location.reload();
   });
 
-  // ─── Load & render settings ────────────────────────────────
   async function showPanel() {
     document.getElementById('login-overlay').style.display = 'none';
     document.getElementById('settings-content').style.display = 'block';
     document.getElementById('logout-btn').style.display = 'inline';
 
     let cfg;
-    try {
-      cfg = await api('GET', '/settings');
-    } catch {
-      return;
-    }
+    try { cfg = await api('GET', '/settings'); } catch { return; }
 
-    // Designer
     document.getElementById('replicate-version').value = cfg.designer?.replicate_version || '';
     renderKbFiles(cfg.designer?.kb_files || []);
-
-    // Farmer
     document.getElementById('runs-url').value = cfg.farmer?.runs_url || '';
     document.getElementById('treatments-url').value = cfg.farmer?.treatments_url || '';
-
-    // CFO
     renderTemFile(cfg.cfo?.tem_model_file || '');
   }
 
-  // ─── KB files ──────────────────────────────────────────────
   function renderKbFiles(files) {
     const list = document.getElementById('kb-file-list');
     if (!files.length) {
@@ -475,7 +485,6 @@
     e.target.value = '';
   });
 
-  // ─── Designer save ─────────────────────────────────────────
   document.getElementById('save-designer-btn').addEventListener('click', async () => {
     try {
       await api('POST', '/settings/designer', {
@@ -487,7 +496,6 @@
     }
   });
 
-  // ─── Farmer save ───────────────────────────────────────────
   document.getElementById('save-farmer-btn').addEventListener('click', async () => {
     try {
       await api('POST', '/settings/farmer', {
@@ -500,7 +508,6 @@
     }
   });
 
-  // ─── TEM file ──────────────────────────────────────────────
   function renderTemFile(filename) {
     const list = document.getElementById('tem-file-list');
     if (!filename) {
@@ -529,13 +536,12 @@
     e.target.value = '';
   });
 
-  // ─── Auto-check if already logged in ───────────────────────
   (async () => {
     try {
       await api('GET', '/settings');
       showPanel();
     } catch {
-      // not logged in yet — show login form
+      // not logged in — show login form
     }
   })();
 </script>

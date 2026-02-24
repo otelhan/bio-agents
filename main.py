@@ -26,4 +26,11 @@ async def iframe_headers(request: Request, call_next):
 app.include_router(chat_router, prefix="/api")
 app.include_router(settings_router, prefix="/api")
 app.include_router(upload_router, prefix="/api")
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
