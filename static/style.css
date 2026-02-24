@@ -481,13 +481,26 @@ body {
 
 /* ─── Mobile ─────────────────────────────────────────────── */
 @media (max-width: 640px) {
+  body {
+    background-attachment: scroll; /* background-attachment: fixed breaks on iOS Safari */
+    align-items: flex-end;
+  }
+
   .app {
     max-width: 100%;
     margin-top: 0;
     margin-bottom: 0;
-    height: 100dvh;
-    border-radius: 0;
-    box-shadow: none;
+    height: calc(100dvh - 52px); /* leave background visible at top */
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Header: hide brand text, tighten up badges */
+  .header-brand { display: none; }
+
+  .badge {
+    font-size: 9px;
+    padding: 2px 7px;
   }
 
   .message { max-width: 90%; }
