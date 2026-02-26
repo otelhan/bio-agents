@@ -54,8 +54,8 @@ async function loadSuggested() {
         btn.textContent = q;
         btn.onclick = () => {
           input.value = `@${agent} ${q}`;
-          input.focus();
           greetingEl.style.display = "none";
+          form.dispatchEvent(new Event("submit"));
         };
         el.appendChild(btn);
       });
