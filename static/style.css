@@ -274,6 +274,15 @@ body {
 .message__body--farmer   { border-left-color: var(--accent-farmer);   background: #f4f7ee; }
 .message__body--cfo      { border-left-color: var(--accent-cfo);      background: #fcf3f3; }
 
+/* Markdown blockquote */
+.message__body blockquote {
+  border-left: 3px solid var(--border);
+  padding: 4px 12px;
+  margin: 6px 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 /* Markdown headings */
 .message__body h2 {
   font-size: 15px;

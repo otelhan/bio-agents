@@ -53,9 +53,7 @@ async function loadSuggested() {
         btn.className = `suggested-btn suggested-btn--${agent}`;
         btn.textContent = q;
         btn.onclick = () => {
-          input.value = `@${agent} ${q}`;
-          greetingEl.style.display = "none";
-          form.dispatchEvent(new Event("submit"));
+          sendMessage(`@${agent} ${q}`);
         };
         el.appendChild(btn);
       });
@@ -90,6 +88,10 @@ function renderMarkdown(text) {
   text = text.replace(/^### (.+)$/gm, "<h3>$1</h3>");
   text = text.replace(/^## (.+)$/gm, "<h2>$1</h2>");
   text = text.replace(/^# (.+)$/gm, "<h2>$1</h2>");
+  // Blockquotes
+  text = text.replace(/^> ?(.*)$/gm, "<blockquote>$1</blockquote>");
+  // Collapse adjacent blockquotes into one
+  text = text.replace(/<\/blockquote>\n<blockquote>/g, "\n");
   // Horizontal rules
   text = text.replace(/^---+$/gm, "<hr>");
   text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
